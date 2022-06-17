@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      pre-release_tag: ${{ steps.latest_tag.tag_name }}
+      p: ${{ steps.latest_tag.tag_name }}
 
     steps:
       - name: Checkout sources
@@ -35,7 +35,7 @@ jobs:
           next_semver="v$current_major.$current_minor.$next_patch-pre-release"
           echo "current semver: $current_semver"
           echo "next pre-release semver: $next_semver"
-          echo "::set-output name=tag_name::$next_semver"
+          echo "::set-output name=tag_name::${next_semver}"
         shell: bash
 
   test-tag-name:
@@ -46,6 +46,6 @@ jobs:
     steps:
       - name: print tag_name
         run: |
-          echo "2nd job: ${{ needs.prepare.outputs.pre-release_tag }}"
+          echo "2nd job: ${{ needs.prepare.outputs.p }}"
 
 
