@@ -1,0 +1,39 @@
+name: Build Pre-release
+
+on:
+  push:
+    branches:
+      - master
+      - sw0nt-dev
+
+jobs:
+  prepare:
+    name: Prepare pre-release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Create/Update pre-release tag
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const createOrUpdateTag = require('./.github/scripts/create-or-update-ref.js')
+            await createOrUpdateTag({github, context}, 'pre-release')
+
+      - name: Build binaries
+        uses: ./.github/workflows/build.yml
+
+      - name: Update pre-release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: 'Pre-release'
+          tag_name: 'pre-release'
+          prerelease: true
+          body: ''
+          files: |
+            dist/vyper.*
+
