@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      p: ${{ steps.latest_tag.tag_name }}
+      pre-release_tag: ${{ steps.latest_tag.tag_name }}
 
     steps:
       - name: Checkout sources
@@ -43,9 +43,12 @@ jobs:
     needs: prepare
     runs-on: ubuntu-latest
 
+    env:
+      VERSION: ${{ needs.prepare.outputs.pre-release_tag }}
+
     steps:
       - name: print tag_name
         run: |
-          echo "2nd job: ${{ needs.prepare.outputs.p }}"
+          echo "2nd job: ${VERSION}"
 
 
