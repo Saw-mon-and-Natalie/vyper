@@ -1,0 +1,29 @@
+name: semver
+
+on:
+  workflow_dispatch:
+    branches:
+      - master
+      - sw0nt-dev
+  push:
+    branches:
+      - master
+      - sw0nt-dev
+
+jobs:
+  prepare:
+    name: Prepare pre-release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Finding the latest tag
+        run: |
+          semver=$(git tag --list 'v*' | tail -n 1)
+          echo "semver: $semver"
+        shell: bash
+
