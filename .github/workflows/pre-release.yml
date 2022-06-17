@@ -48,5 +48,5 @@ jobs:
           prerelease: true
           body: ''
           files: |
-            dist/artifacts/vyper.*
+            dist/artifact/vyper.*
 
