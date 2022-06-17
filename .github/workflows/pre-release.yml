@@ -28,11 +28,14 @@ jobs:
         id: release_info
         run: |
           echo "::set-output name=tag_name::$(git tag --list 'v*' | tail -n 1)"
+          echo "latest tag is: ${{ steps.release_info.outputs.tag_name }}"
 
       - name: Create/Update pre-release tag
         uses: actions/github-script@v6
         with:
           script: |
+            const prunePrereleases = require('./.github/scripts/prune-prereleases.js')
+            await prunePrereleases({github, context})
             const createOrUpdateTag = require('./.github/scripts/create-or-update-ref.js')
             await createOrUpdateTag({github, context}, 'pre-release')
 
@@ -42,9 +45,13 @@ jobs:
         with:
           configuration: "./.github/changelog.json"
           fromTag: ${{ steps.release_info.tag_name }}
-          toTag: 'pre-release'
+          toTag: pre-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check changelog
+        run: |
+          echo "changelog: ${{ steps.build_changelog.outputs.change_log }}"
 
   build-binaries:
     name: Build binaries
