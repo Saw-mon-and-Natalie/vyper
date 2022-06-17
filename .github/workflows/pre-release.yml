@@ -24,9 +24,16 @@ jobs:
             const createOrUpdateTag = require('./.github/scripts/create-or-update-ref.js')
             await createOrUpdateTag({github, context}, 'pre-release')
 
-      - name: Build binaries
-        uses: ./.github/workflows/build.yml
+  build-binaries:
+    name: Build binaries
+    needs: prepare
+    uses: ./.github/workflows/build.yml
 
+  post-process:
+    name: Post process
+    needs: build-binaries
+    runs-on: ubuntu-latest
+    steps:
       - name: Update pre-release
         uses: softprops/action-gh-release@v1
         with:
