@@ -44,7 +44,7 @@ jobs:
           make freeze
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: dist/vyper.*
 
@@ -71,6 +71,6 @@ jobs:
           ./make.cmd freeze
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: dist/vyper.*

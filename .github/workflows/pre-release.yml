@@ -33,7 +33,13 @@ jobs:
     name: Post process
     needs: build-binaries
     runs-on: ubuntu-latest
+
     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: dist/vyper.*
+
       - name: Update pre-release
         uses: softprops/action-gh-release@v1
         with:
