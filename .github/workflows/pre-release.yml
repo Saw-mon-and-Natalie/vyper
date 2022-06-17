@@ -38,7 +38,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          path: dist/vyper.*
+          path: dist
 
       - name: Update pre-release
         uses: softprops/action-gh-release@v1
@@ -48,5 +48,5 @@ jobs:
           prerelease: true
           body: ''
           files: |
-            dist/vyper.*
+            dist/artifacts/vyper.*
 
