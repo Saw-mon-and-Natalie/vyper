@@ -43,11 +43,10 @@ jobs:
     needs: prepare
     runs-on: ubuntu-latest
 
-    env:
-      VERSION: ${{ needs.prepare.outputs.pre-release_tag }}
-
     steps:
       - name: print tag_name
+        env:
+          VERSION: ${{ needs.prepare.outputs.pre-release_tag }}
         run: |
           echo "2nd job: ${VERSION}"
 
