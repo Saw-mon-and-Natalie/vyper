@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      pre-release_tag: ${{ steps.latest_tag.tag_name }}
+      pre-release_tag: ${{ steps.latest_tag.outputs.tag_name }}
 
     steps:
       - name: Checkout sources
