@@ -42,12 +42,14 @@ jobs:
 
       - name: Create/Update pre-release tag
         uses: actions/github-script@v6
+        env:
+          TAG_NAME: ${{ steps.latest_tag.outputs.tag_name }}
         with:
           script: |
             const prunePrereleases = require('./.github/scripts/prune-prereleases.js')
             await prunePrereleases({github, context})
             const createOrUpdateTag = require('./.github/scripts/create-or-update-ref.js')
-            await createOrUpdateTag({github, context}, ${{ steps.latest_tag.outputs.tag_name }})
+            await createOrUpdateTag({github, context}, process.env.TAG_NAME)
 
       - name: Build changelog
         id: build_changelog
