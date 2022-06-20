@@ -1,4 +1,5 @@
 module.exports = async ({ github, context }, tagName) => {
+  const tags = github.rest.git.getTags()
   try {
     await github.rest.git.getRef({
       owner: context.repo.owner,

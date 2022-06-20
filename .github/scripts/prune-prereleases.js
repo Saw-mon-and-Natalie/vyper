@@ -6,9 +6,8 @@ module.exports = async ({github, context}) => {
       repo: context.repo.repo
     })
   
-    // Only consider releases tagged `nightly-${SHA}` for deletion
     let prereleases = releases.filter(
-      (release) => release.tag_name.includes('pre-release')
+      (release) => release.tag_name.includes('pre')
     )
   
     for (const prerelease of prereleases) {
@@ -17,6 +16,13 @@ module.exports = async ({github, context}) => {
         owner: context.repo.owner,
         repo: context.repo.repo,
         release_id: prerelease.id
+      })
+
+      console.log(`Deleting prerelase tag: ${prerelease.tag_name}`)
+      await github.rest.git.deleteRef({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        ref: `tags/${prerelease.tag_name}`
       })
     }
   
