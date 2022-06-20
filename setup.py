@@ -52,7 +52,7 @@ def _global_version(version):
 
     # strip `.devN` suffix since it is not semver compatible
     # minor regex hack to avoid messing too much with setuptools-scm internals
-    version_str = guess_next_dev_version(re.sub("-pre-release", "", version))
+    version_str = guess_next_dev_version(version)
     return re.sub(r"\.dev\d+", "", version_str)
 
 
@@ -78,6 +78,7 @@ setup(
         "local_scheme": _local_version,
         "version_scheme": _global_version,
         "write_to": "vyper/version.py",
+        "tag_regex": r"^(?:[\w-]+-)?(?P<version>[vV]?\d+(?:\.\d+){0,2}[^\+]*)(?:[-\+].*)?$"
     },
     description="Vyper: the Pythonic Programming Language for the EVM",
     long_description=long_description,
