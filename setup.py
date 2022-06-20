@@ -52,8 +52,8 @@ def _global_version(version):
 
     # strip `.devN` suffix since it is not semver compatible
     # minor regex hack to avoid messing too much with setuptools-scm internals
-    version_str = guess_next_dev_version(version)
-    return re.sub(r"\.dev\d+|-pre-release", "", version_str)
+    version_str = guess_next_dev_version(re.sub("-pre-release", "", version))
+    return re.sub(r"\.dev\d+", "", version_str)
 
 
 hash_file_rel_path = os.path.join("vyper", "vyper_git_commithash.txt")
